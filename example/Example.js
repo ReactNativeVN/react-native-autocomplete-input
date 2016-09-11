@@ -17,7 +17,7 @@ class AutocompleteExample extends Component {
       const roman = episode_id < ROMAN.length ? ROMAN[episode_id] : episode_id;
 
       return (
-        <View style={styles.info}>
+        <View style={styles.descriptionContainer}>
           <Text style={styles.titleText}>{roman}. {title}</Text>
           <Text style={styles.directorText}>({director})</Text>
           <Text style={styles.openingText}>{opening_crawl}</Text>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     margin: 2
   },
   descriptionContainer: {
-    flex: 1
+    marginTop: 8
   },
   infoText: {
     textAlign: 'center'
