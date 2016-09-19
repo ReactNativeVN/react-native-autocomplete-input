@@ -60,6 +60,7 @@
     "react-dom": "^15.2.1",
     "react-native": "^0.31.0",
     "react-native-mock": "^0.2.3",
+    "react-native-vector-icons": "^2.1.0",
     "sinon": "^1.17.4"
   }
 }

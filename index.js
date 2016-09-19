@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import {
+  TouchableNativeFeedback,
   ListView,
   StyleSheet,
   Text,
   TextInput,
   View
 } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 class AutoComplete extends Component {
   static propTypes = {
@@ -39,12 +41,15 @@ class AutoComplete extends Component {
      * `onShowResults` will be called when list is going to
      * show/hide results.
      */
-    onShowResults: PropTypes.func
+    onShowResults: PropTypes.func,
+
+    clear: PropTypes.bool
   };
 
   static defaultProps = {
     data: [],
     defaultValue: '',
+    clear: false,
     renderItem: rowData => <Text>{rowData}</Text>
   };
 
@@ -79,6 +84,13 @@ class AutoComplete extends Component {
     textInput && textInput.focus();
   }
 
+  clearInput() {
+    const { textInput } = this;
+    textInput.clear();
+    const dataSource = this.state.dataSource.cloneWithRows([]);
+    this.setState({ dataSource });
+  }
+
   _renderItems() {
     const { listStyle, renderItem } = this.props;
     const { dataSource } = this.state;
@@ -89,6 +101,7 @@ class AutoComplete extends Component {
         renderRow={renderItem}
         style={[styles.list, listStyle]}
       />
+
     );
   }
 
@@ -107,18 +120,33 @@ class AutoComplete extends Component {
 
   render() {
     const { showResults } = this.state;
-    const { containerStyle, inputContainerStyle, onEndEditing, style, ...props } = this.props;
+    const { clear, containerStyle, inputContainerStyle, onEndEditing, style, ...props } = this.props;
+    let clearUI;
+    let clearContainerStyle;
+    let clearInputStyle;
+    if (clear) {
+      clearContainerStyle = { flexDirection:'row' }
+      clearInputStyle = { width: 305 }
+      clearUI = (
+        <TouchableNativeFeedback onPress={() => this.clearInput()}>
+          <View style={{backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
+            <MaterialIcons name="clear" color='#dddddd' size={32} />
+          </View>
+        </TouchableNativeFeedback>
+      )
+    }
     return (
       <View style={[styles.container, containerStyle]}>
-        <View style={[styles.inputContainer, inputContainerStyle]}>
+        <View style={[styles.inputContainer, inputContainerStyle, clearContainerStyle]}>
           <TextInput
-            style={[styles.input, style]}
+            style={[styles.input, style, clearInputStyle]}
             ref={ref => (this.textInput = ref)}
             onEndEditing={e =>
               this._showResults(false) || (onEndEditing && onEndEditing(e))
             }
             {...props}
           />
+          {clearUI}
         </View>
         {showResults && this._renderItems()}
       </View>
@@ -156,3 +184,4 @@ const styles = StyleSheet.create({
 });
 
 export default AutoComplete;
+
