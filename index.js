@@ -7,6 +7,7 @@ import {
   TextInput,
   View
 } from 'react-native';
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 class AutoComplete extends Component {
@@ -122,11 +123,7 @@ class AutoComplete extends Component {
     const { showResults } = this.state;
     const { clear, containerStyle, inputContainerStyle, onEndEditing, style, ...props } = this.props;
     let clearUI;
-    let clearContainerStyle;
-    let clearInputStyle;
     if (clear) {
-      clearContainerStyle = { flexDirection:'row' }
-      clearInputStyle = { width: 305 }
       clearUI = (
         <TouchableNativeFeedback onPress={() => this.clearInput()}>
           <View style={{backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
@@ -137,16 +134,18 @@ class AutoComplete extends Component {
     }
     return (
       <View style={[styles.container, containerStyle]}>
-        <View style={[styles.inputContainer, inputContainerStyle, clearContainerStyle]}>
-          <TextInput
-            style={[styles.input, style, clearInputStyle]}
-            ref={ref => (this.textInput = ref)}
-            onEndEditing={e =>
-              this._showResults(false) || (onEndEditing && onEndEditing(e))
-            }
-            {...props}
-          />
-          {clearUI}
+        <View style={[styles.inputContainer, inputContainerStyle]}>
+          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+            <TextInput
+              style={[styles.input]}
+              ref={ref => (this.textInput = ref)}
+              onEndEditing={e =>
+                this._showResults(false) || (onEndEditing && onEndEditing(e))
+              }
+              {...props}
+            />
+            {clearUI}
+          </View>
         </View>
         {showResults && this._renderItems()}
       </View>
@@ -165,18 +164,17 @@ const styles = StyleSheet.create({
     flex: 1
   },
   inputContainer: {
-    ...border,
     margin: 10,
-    marginBottom: 0
+    marginBottom: 0,
   },
   input: {
+    flex: 1,
     backgroundColor: 'white',
     height: 40,
     paddingLeft: 3
   },
   list: {
     ...border,
-    backgroundColor: 'white',
     borderTopWidth: 0,
     margin: 10,
     marginTop: 0
