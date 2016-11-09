@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  TouchableNativeFeedback,
+  TouchableOpacity,
   ListView,
   StyleSheet,
   Text,
@@ -125,17 +125,17 @@ class AutoComplete extends Component {
     let clearUI;
     if (clear) {
       clearUI = (
-        <TouchableNativeFeedback onPress={() => this.clearInput()}>
+        <TouchableOpacity onPress={() => this.clearInput()}>
           <View style={{backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
-            <MaterialIcons name="clear" color='#dddddd' size={32} />
+            <MaterialIcons name="clear" color='#dddddd' size={38} />
           </View>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
       )
     }
     return (
       <View style={[styles.container, containerStyle]}>
         <View style={[styles.inputContainer, inputContainerStyle]}>
-          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection:'row', justifyContent: 'space-between', backgroundColor: 'white', height: 40}}>
             <TextInput
               style={[styles.input]}
               ref={ref => (this.textInput = ref)}
@@ -182,4 +182,3 @@ const styles = StyleSheet.create({
 });
 
 export default AutoComplete;
-
